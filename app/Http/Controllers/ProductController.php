@@ -140,8 +140,36 @@ class ProductController extends Controller
     public function uploadImage(Request $request)
     {
         $request->validate(['image' => 'required|image|max:5120']);
+        $file = $request->file('image');
 
-        $path = $request->file('image')->store('products', 'public');
+        $supabaseUrl = env('SUPABASE_URL');
+        $supabaseKey = env('SUPABASE_KEY');
+
+        if (!empty($supabaseUrl) && !empty($supabaseKey)) {
+            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+            $uploadUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/products/' . $filename;
+
+            $response = \Illuminate\Support\Facades\Http::withHeaders([
+                'Authorization' => 'Bearer ' . $supabaseKey,
+                'apikey' => $supabaseKey,
+                'Content-Type' => $file->getClientMimeType(),
+            ])->withBody(
+                file_get_contents($file->getRealPath()),
+                $file->getClientMimeType()
+            )->post($uploadUrl);
+
+            if ($response->successful()) {
+                $publicUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/public/products/' . $filename;
+                return response()->json([
+                    'path' => $publicUrl,
+                    'url'  => $publicUrl,
+                ]);
+            }
+            \Illuminate\Support\Facades\Log::error('Supabase Storage upload failed: ' . $response->body());
+        }
+
+        // Fallback to local storage
+        $path = $file->store('products', 'public');
 
         return response()->json([
             'path' => $path,
@@ -172,7 +200,31 @@ class ProductController extends Controller
         
         // Also support traditional file upload fallback just in case
         if ($request->hasFile('images')) {
+            $supabaseUrl = env('SUPABASE_URL');
+            $supabaseKey = env('SUPABASE_KEY');
+
             foreach ($request->file('images') as $file) {
+                if (!empty($supabaseUrl) && !empty($supabaseKey)) {
+                    $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                    $uploadUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/products/' . $filename;
+
+                    $response = \Illuminate\Support\Facades\Http::withHeaders([
+                        'Authorization' => 'Bearer ' . $supabaseKey,
+                        'apikey' => $supabaseKey,
+                        'Content-Type' => $file->getClientMimeType(),
+                    ])->withBody(
+                        file_get_contents($file->getRealPath()),
+                        $file->getClientMimeType()
+                    )->post($uploadUrl);
+
+                    if ($response->successful()) {
+                        $paths[] = rtrim($supabaseUrl, '/') . '/storage/v1/object/public/products/' . $filename;
+                        continue;
+                    }
+                    \Illuminate\Support\Facades\Log::error('Supabase Storage upload fallback failed: ' . $response->body());
+                }
+
+                // Local fallback
                 $paths[] = $file->store('products', 'public');
             }
         }

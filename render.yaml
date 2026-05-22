@@ -23,12 +23,12 @@ services:
       - key: DB_DATABASE
         value: postgres
       - key: DB_USERNAME
-        value: postgres.pxnvbgrfowcpoysymtd
+        value: postgres.pxnvbgrfowcpoysysmtd
       - key: DB_PASSWORD
         sync: false
         placeholder: "Your Supabase Database Password"
       - key: SUPABASE_URL
-        value: https://pxnvbgrfowcpoysymtd.supabase.co
+        value: https://pxnvbgrfowcpoysysmtd.supabase.co
       - key: SUPABASE_KEY
         sync: false
         placeholder: "Your Supabase service_role secret key"
