@@ -1,0 +1,57 @@
+services:
+  - type: web
+    name: manas-creations
+    runtime: docker
+    plan: free
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        sync: false
+        placeholder: "Paste secure Laravel APP_KEY (generate locally with: php artisan key:generate --show)"
+      - key: APP_URL
+        sync: false
+        placeholder: "e.g. https://manas-creations.onrender.com or your custom domain"
+      - key: DB_CONNECTION
+        value: pgsql
+      - key: DB_HOST
+        value: aws-1-ap-northeast-2.pooler.supabase.com
+      - key: DB_PORT
+        value: "6543"
+      - key: DB_DATABASE
+        value: postgres
+      - key: DB_USERNAME
+        value: postgres.pxnvbgrfowcpoysymtd
+      - key: DB_PASSWORD
+        sync: false
+        placeholder: "Your Supabase Database Password"
+      - key: SUPABASE_URL
+        value: https://pxnvbgrfowcpoysymtd.supabase.co
+      - key: SUPABASE_KEY
+        sync: false
+        placeholder: "Your Supabase service_role secret key"
+      - key: MAIL_MAILER
+        value: smtp
+      - key: MAIL_HOST
+        value: smtp-relay.brevo.com
+      - key: MAIL_PORT
+        value: "587"
+      - key: MAIL_USERNAME
+        sync: false
+        placeholder: "Your Brevo SMTP Username"
+      - key: MAIL_PASSWORD
+        sync: false
+        placeholder: "Your Brevo SMTP Password / Key"
+      - key: MAIL_ENCRYPTION
+        value: tls
+      - key: MAIL_FROM_ADDRESS
+        value: manascreationsofficial@gmail.com
+      - key: MAIL_FROM_NAME
+        value: "Manas Creations"
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false
+        placeholder: "Set secure Admin Password for production"
