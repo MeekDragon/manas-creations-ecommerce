@@ -33,7 +33,7 @@ services:
         sync: false
         placeholder: "Your Supabase service_role secret key"
       - key: MAIL_MAILER
-        value: smtp
+        value: brevo
       - key: MAIL_HOST
         value: smtp-relay.brevo.com
       - key: MAIL_PORT

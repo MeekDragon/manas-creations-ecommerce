@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 
+use Illuminate\Support\Facades\Mail;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -19,6 +21,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Mail::extend('brevo', function (array $config) {
+            return new \App\Mail\BrevoApiTransport(env('MAIL_PASSWORD') ?: '');
+        });
     }
 }
