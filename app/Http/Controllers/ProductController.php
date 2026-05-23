@@ -139,42 +139,54 @@ class ProductController extends Controller
      */
     public function uploadImage(Request $request)
     {
-        $request->validate(['image' => 'required|image|max:5120']);
-        $file = $request->file('image');
+        try {
+            $request->validate(['image' => 'required|image|max:5120']);
+            $file = $request->file('image');
 
-        $supabaseUrl = env('SUPABASE_URL');
-        $supabaseKey = env('SUPABASE_KEY');
+            $supabaseUrl = env('SUPABASE_URL');
+            $supabaseKey = env('SUPABASE_KEY');
 
-        if (!empty($supabaseUrl) && !empty($supabaseKey)) {
-            $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $uploadUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/products/' . $filename;
+            if (!empty($supabaseUrl) && !empty($supabaseKey)) {
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+                $uploadUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/products/' . $filename;
 
-            $response = \Illuminate\Support\Facades\Http::withHeaders([
-                'Authorization' => 'Bearer ' . $supabaseKey,
-                'apikey' => $supabaseKey,
-                'Content-Type' => $file->getClientMimeType(),
-            ])->withBody(
-                file_get_contents($file->getRealPath()),
-                $file->getClientMimeType()
-            )->post($uploadUrl);
+                $response = \Illuminate\Support\Facades\Http::withHeaders([
+                    'Authorization' => 'Bearer ' . $supabaseKey,
+                    'apikey' => $supabaseKey,
+                    'Content-Type' => $file->getClientMimeType(),
+                ])->withBody(
+                    file_get_contents($file->getRealPath()),
+                    $file->getClientMimeType()
+                )->post($uploadUrl);
 
-            if ($response->successful()) {
-                $publicUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/public/products/' . $filename;
+                if ($response->successful()) {
+                    $publicUrl = rtrim($supabaseUrl, '/') . '/storage/v1/object/public/products/' . $filename;
+                    return response()->json([
+                        'path' => $publicUrl,
+                        'url'  => $publicUrl,
+                    ]);
+                }
+
+                $errMsg = $response->json('message') ?? $response->body();
+                \Illuminate\Support\Facades\Log::error('Supabase Storage upload failed: ' . $response->body());
                 return response()->json([
-                    'path' => $publicUrl,
-                    'url'  => $publicUrl,
-                ]);
+                    'error' => 'Supabase Upload Error: ' . $errMsg
+                ], 400);
             }
-            \Illuminate\Support\Facades\Log::error('Supabase Storage upload failed: ' . $response->body());
+
+            // Fallback to local storage (only when Supabase credentials are not set)
+            $path = $file->store('products', 'public');
+
+            return response()->json([
+                'path' => $path,
+                'url'  => Storage::disk('public')->url($path),
+            ]);
+        } catch (\Exception $e) {
+            \Illuminate\Support\Facades\Log::error('Image upload exception: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'Upload Failed: ' . $e->getMessage()
+            ], 500);
         }
-
-        // Fallback to local storage
-        $path = $file->store('products', 'public');
-
-        return response()->json([
-            'path' => $path,
-            'url'  => Storage::disk('public')->url($path),
-        ]);
     }
 
     // ── Helpers ──────────────────────────────────

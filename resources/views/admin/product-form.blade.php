@@ -132,8 +132,13 @@ async function handleImgUpload(e) {
       fd.append('_token', window.CSRF_TOKEN);
       const res = await fetch('{{ route("admin.products.upload-image") }}', { method: 'POST', body: fd });
       const data = await res.json();
-      uploadedImages.push(data);
-      renderNewImagePreviews();
+      
+      if (!res.ok) {
+        showToast(data.error || 'Image upload failed.', 'error');
+      } else {
+        uploadedImages.push(data);
+        renderNewImagePreviews();
+      }
     } catch(err) {
       showToast('Image upload failed.', 'error');
     }
