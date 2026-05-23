@@ -40,6 +40,9 @@ RUN chown -R www-data:www-data storage bootstrap/cache \
 # Expose port (Render sets PORT env dynamically)
 EXPOSE 80
 
+# Configure PHP upload limits
+COPY .docker/uploads.ini /usr/local/etc/php/conf.d/uploads.ini
+
 # Configure entrypoint script
 COPY .docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

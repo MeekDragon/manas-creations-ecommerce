@@ -131,7 +131,14 @@ async function handleImgUpload(e) {
       fd.append('image', file);
       fd.append('_token', window.CSRF_TOKEN);
       const res = await fetch('{{ route("admin.products.upload-image") }}', { method: 'POST', body: fd });
-      const data = await res.json();
+      
+      let data;
+      try {
+        data = await res.json();
+      } catch (jsonErr) {
+        showToast('Image upload failed (Server Error ' + res.status + ').', 'error');
+        continue;
+      }
       
       if (!res.ok) {
         showToast(data.error || 'Image upload failed.', 'error');
@@ -140,7 +147,8 @@ async function handleImgUpload(e) {
         renderNewImagePreviews();
       }
     } catch(err) {
-      showToast('Image upload failed.', 'error');
+      console.error(err);
+      showToast('Image upload failed: ' + err.message, 'error');
     }
   }
 
