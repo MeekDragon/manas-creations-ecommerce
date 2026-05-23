@@ -6,7 +6,7 @@
 <div class="admin-page-sub">Fill in the details for your product.</div>
 
 <form method="POST"
-      action="{{ isset($product) ? route('admin.products.update', $product) : route('admin.products.store') }}"
+      action="{{ isset($product) ? route('admin.products.update', $product, false) : route('admin.products.store', [], false) }}"
       enctype="multipart/form-data"
       id="productForm">
   @csrf

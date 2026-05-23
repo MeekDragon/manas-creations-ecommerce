@@ -5,7 +5,7 @@
 <div class="admin-page-title">{{ $user->exists ? 'Edit Admin Account' : 'Create Admin Account' }}</div>
 <div class="admin-page-sub">Manage admin credentials and administrative privileges.</div>
 
-<form method="POST" action="{{ $user->exists ? route('admin.admins.update', $user) : route('admin.admins.store') }}">
+<form method="POST" action="{{ $user->exists ? route('admin.admins.update', $user, false) : route('admin.admins.store', [], false) }}">
   @csrf
   @if($user->exists) @method('PUT') @endif
 

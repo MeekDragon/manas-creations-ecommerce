@@ -5,7 +5,7 @@
 <div class="admin-page-title">{{ isset($category) ? 'Edit Category' : 'Add Category' }}</div>
 <div class="admin-page-sub">Manage category details.</div>
 
-<form method="POST" action="{{ isset($category) ? route('admin.categories.update', $category) : route('admin.categories.store') }}">
+<form method="POST" action="{{ isset($category) ? route('admin.categories.update', $category, false) : route('admin.categories.store', [], false) }}">
   @csrf
   @if(isset($category)) @method('PUT') @endif
 
