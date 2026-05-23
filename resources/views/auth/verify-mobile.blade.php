@@ -58,7 +58,7 @@ body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;m
       <button type="submit" class="btn-gold">Resend Verification Email</button>
     </form>
 
-    <form method="POST" action="{{ route('logout') }}" style="margin-top:18px">
+    <form method="POST" action="{{ route('logout', [], false) }}" style="margin-top:18px">
       @csrf
       <button type="submit" class="btn-link" style="color:var(--text-dim)">← Back to Login / Use another account</button>
     </form>

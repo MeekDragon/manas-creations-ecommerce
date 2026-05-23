@@ -336,7 +336,7 @@ footer{background:var(--dark2);border-top:1px solid var(--glass-border);padding:
         @if(Auth::user()->is_admin || Auth::user()->is_superadmin)
           <a href="{{ route('admin.dashboard') }}" class="nav-admin-btn">Admin ↗</a>
         @endif
-        <form action="{{ route('logout') }}" method="POST" style="display:inline">
+        <form action="{{ route('logout', [], false) }}" method="POST" style="display:inline">
           @csrf
           <button type="submit" class="nav-admin-btn" style="background:transparent;margin-left:4px">Logout</button>
         </form>
@@ -370,7 +370,7 @@ footer{background:var(--dark2);border-top:1px solid var(--glass-border);padding:
       @if(Auth::user()->is_admin)
         <a href="{{ route('admin.dashboard') }}" class="nav-admin-btn" style="text-align:center">Admin Panel ↗</a>
       @endif
-      <form action="{{ route('logout') }}" method="POST" style="display:flex;flex-direction:column">
+      <form action="{{ route('logout', [], false) }}" method="POST" style="display:flex;flex-direction:column">
         @csrf
         <button type="submit" class="nav-admin-btn" style="width:100%">Logout</button>
       </form>
