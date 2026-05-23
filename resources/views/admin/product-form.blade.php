@@ -130,7 +130,7 @@ async function handleImgUpload(e) {
       const fd = new FormData();
       fd.append('image', file);
       fd.append('_token', window.CSRF_TOKEN);
-      const res = await fetch('{{ route("admin.products.upload-image") }}', { method: 'POST', body: fd });
+      const res = await fetch('{{ route("admin.products.upload-image", [], false) }}', { method: 'POST', body: fd });
       
       let data;
       try {

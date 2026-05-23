@@ -770,7 +770,7 @@ async function submitModalQuery(pid) {
   if (!contact || !msg) { showToast('Please fill mobile number and message.'); return; }
   const p = pid ? PRODUCTS.find(x => x.id == pid) : null;
   try {
-    const res = await fetch('{{ route("inquiry.store") }}', {
+    const res = await fetch('{{ route("inquiry.store", [], false) }}', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-TOKEN': window.CSRF_TOKEN },
       body: JSON.stringify({ contact, category: (p && p.category) ? p.category.name : 'General', message: msg, product: p?.name || '' }),

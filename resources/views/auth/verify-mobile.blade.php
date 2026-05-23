@@ -69,7 +69,7 @@ body{background:var(--dark);color:var(--text);font-family:'DM Sans',sans-serif;m
     // to automatically log in the user as soon as they click the verification link in their email!
     setInterval(async () => {
       try {
-        const res = await fetch('{{ route("verification.status") }}');
+        const res = await fetch('{{ route("verification.status", [], false) }}');
         if (res.ok) {
           const data = await res.json();
           if (data.verified) {
