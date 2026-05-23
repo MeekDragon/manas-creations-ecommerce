@@ -89,15 +89,3 @@ Route::middleware('admin.auth')->prefix('admin')->name('admin.')->group(function
     Route::delete('/products/{id}/force-delete', [ProductController::class, 'forceDelete'])->name('products.force-delete');
     Route::post('/products/upload-image', [ProductController::class, 'uploadImage'])->name('products.upload-image');
 });
-
-Route::get('/test-smtp', function () {
-    try {
-        \Illuminate\Support\Facades\Mail::raw('Live Server SMTP Verification Test Mail', function ($message) {
-            $message->to('manascreationsofficial@gmail.com')->subject('Live Server SMTP Test');
-        });
-        return 'SMTP_SUCCESS: Test email successfully sent to manascreationsofficial@gmail.com!';
-    } catch (\Exception $e) {
-        return 'SMTP_FAILED: ' . $e->getMessage();
-    }
-});
-
