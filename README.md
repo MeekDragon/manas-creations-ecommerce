@@ -1,114 +1,116 @@
-# Manas Creations — Laravel Application
+# 🛍️ Manas Creations — Laravel Application
 
-A premium acrylic products e-commerce/showcase site with a full admin panel, converted from a standalone HTML file to a Laravel 11 application.
+<div align="center">
 
-## Features
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
+![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white)
+![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-- **Public storefront** — Hero section, product catalog with category filtering, Why Us, contact form
-- **WhatsApp integration** — Direct enquiry links per product
-- **Product enquiry modal** — Customers can send queries from any product card
-- **Admin panel** (`/admin`) — Protected by session auth
-  - Dashboard with live stats
-  - Inquiries management (view, toggle status, delete)
-  - Products CRUD (create, edit, delete with image upload)
+<p align="center">
+  <b>A Premium Acrylic Products E-Commerce & Inquiry Showcase Portal</b><br>
+  Featuring a robust storefront catalog, dynamic WhatsApp-integrated inquiry forms, and a secure administration dashboard.
+</p>
 
-## Tech Stack
-
-- **Laravel 11** (PHP 8.2+)
-- **MySQL / SQLite** — standard Laravel migrations
-- **Blade** templates
-- **Local file storage** — product images stored in `storage/app/public/products/`
+</div>
 
 ---
 
-## Installation
+## ✨ Features Tour
 
+*   **Public Storefront**: Modern hero showcase, comprehensive product catalog with interactive category filters, "Why Us" corporate grid, and contact form.
+*   **WhatsApp Integration**: Instant, customized product inquiry links per product card.
+*   **Administrative Dashboard (`/admin`)**:
+    *   Protected by session-based authentication shields.
+    *   Overview charts displaying live inquiry statistics.
+    *   Products CRUD (Create, Read, Update, Delete) with secure multi-format image uploads.
+    *   Inquiries Tracker with toggle-read flags and batch deletion.
+
+---
+
+## 🛠️ Step-by-Step Local Setup
+
+Ensure you have PHP 8.2+, Composer, and Node.js/NPM installed. Run the following steps:
+
+### 1. Clone & Install PHP/Node Packages
 ```bash
-# 1. Clone / unzip the project
-cd manas-creations
-
-# 2. Install dependencies
+git clone https://github.com/MeekDragon/manas-creations-ecommerce.git
+cd manas-creations-ecommerce
 composer install
-
-# 3. Copy and configure environment
-cp .env.example .env
-php artisan key:generate
-
-# 4. Configure your database in .env
-# DB_DATABASE, DB_USERNAME, DB_PASSWORD
-
-# 5. Run migrations and seed default products
-php artisan migrate --seed
-
-# 6. Create the storage symlink (for image serving)
-php artisan storage:link
-
-# 7. Start the dev server
-php artisan serve
+npm install
 ```
 
-Visit `http://localhost:8000` for the public site.  
-Visit `http://localhost:8000/admin` for the admin panel.
+### 2. Copy and Configure Environment Secrets
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-**Default credentials:**
-- Username: `admin`
-- Password: `manas2025`
+### 3. Set Up the Database in `.env`
+Specify your local database parameters:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=manas_creations
+DB_USERNAME=root
+DB_PASSWORD=yourpassword
+```
 
-> ⚠️ Change the admin credentials in `.env` before deploying to production.
+### 4. Seed and Symlink Files
+Migrate schemas, seed default product lists, and link the public filesystems for asset loading:
+```bash
+php artisan migrate --seed
+php artisan storage:link
+```
+
+### 5. Build Assets & Start servers
+Compile frontend CSS/JS files and fire up the Laravel host:
+```bash
+npm run dev
+php artisan serve
+```
+Visit `http://localhost:8000` to browse the store!  
+Visit `http://localhost:8000/admin` to access the administrator panel.
+
+**Default Credentials:**
+- **Username**: `admin`
+- **Password**: `manas2025`
+*(Note: Be sure to change these values in `.env` before going live!)*
 
 ---
 
-## Project Structure
+## 🏛️ Project Directory Blueprint
 
 ```
 app/
   Http/
     Controllers/
-      PublicController.php   — Home page
-      AdminController.php    — Auth + admin pages
-      ProductController.php  — Product CRUD + image upload
-      InquiryController.php  — Inquiry store, toggle, delete
+      PublicController.php   — Renders homepage
+      AdminController.php    — Handles session security
+      ProductController.php  — Product management & uploads
+      InquiryController.php  — Inquiry pipelines
     Middleware/
-      AdminAuth.php           — Session-based admin guard
+      AdminAuth.php           — Guarding admin gates
   Models/
     Product.php
     Inquiry.php
 
-config/
-  admin.php                  — Admin credentials config
-
-database/
-  migrations/
-    ...create_products_table.php
-    ...create_inquiries_table.php
-  seeders/
-    DatabaseSeeder.php       — 6 default products
-
 resources/views/
   layouts/
-    app.blade.php            — Public layout
-    admin.blade.php          — Admin sidebar layout
+    app.blade.php            — Main storefront shell
+    admin.blade.php          — Dashboard layout
   public/
-    home.blade.php           — Main storefront page
+    home.blade.php           — Public home
   admin/
     login.blade.php
     dashboard.blade.php
     inquiries.blade.php
     products.blade.php
-    product-form.blade.php   — Create/edit form
-  partials/
-    product-card.blade.php
-    wa-icon.blade.php
-
-routes/
-  web.php
 ```
 
 ---
 
-## Deployment Notes
+## 📄 License
 
-- Set `APP_ENV=production` and `APP_DEBUG=false` in `.env`
-- Run `php artisan optimize` before going live
-- Product images are stored locally. For cloud storage, configure `FILESYSTEM_DISK=s3` and update `ProductController::handleImages()` accordingly.
-- The admin uses simple session-based auth (no Laravel Auth). For enhanced security, consider switching to Laravel Breeze.
+This project is licensed under the terms of the [MIT License](LICENSE).
