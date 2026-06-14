@@ -72,12 +72,6 @@ php artisan serve
 ```
 Visit `http://localhost:8000` to browse the store!  
 Visit `http://localhost:8000/admin` to access the administrator panel.
-
-**Default Credentials:**
-- **Username**: `admin`
-- **Password**: `manas2025`
-*(Note: Be sure to change these values in `.env` before going live!)*
-
 ---
 
 ## 🏛️ Project Directory Blueprint

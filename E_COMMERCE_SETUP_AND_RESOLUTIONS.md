@@ -43,12 +43,12 @@ This comprehensive document serves as the official guide to the technical soluti
 ### The Technical Solution
 Created a secure `SuperAdminSeeder.php` database seeder to establish the following administrative hierarchy with strictly distinct logins and passwords satisfying your exact criteria:
 
-| Admin Tier | Name | Email | Password Criteria | Seeded Password |
-| :--- | :--- | :--- | :--- | :--- |
-| **Super Admin** | Om Yadav | `manascreationsofficial@gmail.com` | Contains `Om` | `OmYadavSuper2026` |
-| **Admin 1** | Atish | `admin1@manascreations.in` | Contains `atish` | `atishAdmin2026` |
-| **Admin 2** | Dheeraj | `admin2@manascreations.in` | Contains `dheeraj` | `dheerajAdmin2026` |
-| **Admin 3** | Manas | `admin3@manascreations.in` | Contains `manas` | `manasAdmin2026` |
+| Admin Tier | Name | Email | Password Configuration |
+| :--- | :--- | :--- | :--- |
+| **Super Admin** | Om Yadav | `manascreationsofficial@gmail.com` | Set via `SUPERADMIN_PASSWORD` env variable |
+| **Admin 1** | Atish | `admin1@manascreations.in` | Set via `ADMIN1_PASSWORD` env variable |
+| **Admin 2** | Dheeraj | `admin2@manascreations.in` | Set via `ADMIN2_PASSWORD` env variable |
+| **Admin 3** | Manas | `admin3@manascreations.in` | Set via `ADMIN3_PASSWORD` env variable |
 
 ---
 

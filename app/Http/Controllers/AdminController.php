@@ -16,7 +16,7 @@ class AdminController extends Controller
     public function __construct()
     {
         $this->adminUser = config('admin.username', 'admin');
-        $this->adminPass = config('admin.password', 'manas2025');
+        $this->adminPass = config('admin.password');
     }
 
     // ── Auth ──────────────────────────────────────

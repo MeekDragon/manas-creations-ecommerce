@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class SuperAdminSeeder extends Seeder
 {
+    private function getPassword(string $envKey, string $localFallback): string
+    {
+        $password = env($envKey);
+        if (empty($password)) {
+            if (app()->environment('production')) {
+                throw new \Exception("The environment variable {$envKey} must be set in production.");
+            }
+            return $localFallback;
+        }
+        return $password;
+    }
+
     public function run()
     {
         // 1. Super Admin: Om Yadav
@@ -19,7 +31,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Om Yadav',
             'email' => 'manascreationsofficial@gmail.com',
             'mobile' => '7058466889',
-            'password' => Hash::make('OmYadavSuper2026'),
+            'password' => Hash::make($this->getPassword('SUPERADMIN_PASSWORD', 'OmYadavSuper2026')),
             'is_admin' => true,
             'is_superadmin' => true,
             'email_verified_at' => now(),
@@ -32,7 +44,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Atish Admin',
             'email' => 'admin1@manascreations.in',
             'mobile' => '7058466881',
-            'password' => Hash::make('atishAdmin2026'),
+            'password' => Hash::make($this->getPassword('ADMIN1_PASSWORD', 'atishAdmin2026')),
             'is_admin' => true,
             'is_superadmin' => false,
             'email_verified_at' => now(),
@@ -45,7 +57,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Dheeraj Admin',
             'email' => 'admin2@manascreations.in',
             'mobile' => '7058466882',
-            'password' => Hash::make('dheerajAdmin2026'),
+            'password' => Hash::make($this->getPassword('ADMIN2_PASSWORD', 'dheerajAdmin2026')),
             'is_admin' => true,
             'is_superadmin' => false,
             'email_verified_at' => now(),
@@ -58,7 +70,7 @@ class SuperAdminSeeder extends Seeder
             'name' => 'Manas Admin',
             'email' => 'admin3@manascreations.in',
             'mobile' => '7058466883',
-            'password' => Hash::make('manasAdmin2026'),
+            'password' => Hash::make($this->getPassword('ADMIN3_PASSWORD', 'manasAdmin2026')),
             'is_admin' => true,
             'is_superadmin' => false,
             'email_verified_at' => now(),

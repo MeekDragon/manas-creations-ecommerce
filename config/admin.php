@@ -9,5 +9,5 @@ return [
     | Defaults are provided for local development only.
     */
     'username' => env('ADMIN_USERNAME', 'admin'),
-    'password' => env('ADMIN_PASSWORD', 'manas2025'),
+    'password' => env('ADMIN_PASSWORD'),
 ];
